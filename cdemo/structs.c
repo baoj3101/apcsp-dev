@@ -27,9 +27,10 @@ int main (int argc, char* argv[]) {
 		exit (1);
 	}
 	
+	// number of students
 	int N = (argc - 1) / 4;
 	for (int i = 0; i < N; i++) {
-		int j = i*4+1;
+		int j = i*4+1;   // point to first name
 		strcpy(students[i].firstName, argv[j]);
 		strcpy(students[i].lastName, argv[j+1]);
   		students[i].age       = atoi(argv[j+2]);

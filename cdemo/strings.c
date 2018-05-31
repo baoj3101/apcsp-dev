@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 int mycmp (char* str1, char* str2) {
   // use strcmp to test if they are the same or not 
@@ -27,7 +26,7 @@ int main () {
 
   // convert string 1 to upper case
   for (int i = 0; i < 26; i++) {
-    str1[i] = toupper(str1[i]);
+    str1[i] = str1[i] - 'a' + 'A';
   }
  
   mycmp(str1, str2);
