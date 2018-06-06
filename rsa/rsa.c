@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef unsigned long long ull;
 
@@ -31,8 +32,11 @@ int is_prime (ull n) {
 // generate a large random prime number within the range [lower, upper]
 ull rand_prime () {
 
-	ull lower =  1000000;
-	ull upper = 10000000;
+//	ull lower =  1000000;
+//	ull upper = 10000000;
+	ull lower =  1000;
+	ull upper = 10000;
+
 	ull range = upper - lower + 1;
 
 	while (1) {
@@ -85,7 +89,25 @@ int gen_rsa_keys (ull p, ull q) {
 	printf ("private key d = %llu\n", d);
 
 }
+// encrypt function
+ull enc (ull m) {
+	ull c = 1;
+	ull i = 0;
+	for (i = 0; i < e; i++) {
+		c = c * m % n;
+	}
+	return c;
+}
 
+// decrypt function
+ull dec (ull c) {
+   ull m = 1;
+   ull i = 0;
+   for (i = 0; i < d; i++) {
+      m = m * c % n;
+   }
+   return m;
+}
 
 // this is the main function with the following usage:
 // run <random seed> <text to be encrypted>
@@ -111,4 +133,24 @@ int main (int argc, char* argv[]) {
 
 	gen_rsa_keys (p, q);
 
+	ull enc_msg[100];
+	int i = 0;
+
+	// encryption
+	printf ("Encryption:\n");
+	for (i = 0; i < strlen(msg); i++) {
+		ull m = (ull) msg[i];
+		ull c = enc (m);
+		printf ("%c	=> %-16llu\n", msg[i], c);
+		enc_msg[i] = c;
+	}
+	// decryption
+	printf ("Decryption:\n");
+	for (i = 0; i < strlen(msg); i++) {
+		ull c = enc_msg[i];
+		char m = (char) dec(c);
+		printf ("%-16llu => %c\n", c, m); 
+	}
 }
+
+
