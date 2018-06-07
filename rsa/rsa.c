@@ -34,8 +34,8 @@ ull rand_prime () {
 
 //	ull lower =  1000000;
 //	ull upper = 10000000;
-	ull lower =  1000;
-	ull upper = 10000;
+	ull lower =  100;
+	ull upper =  500;
 
 	ull range = upper - lower + 1;
 
@@ -65,10 +65,18 @@ ull gcd (ull a, ull b) {
 
 int gen_rsa_keys (ull p, ull q) {
 
+	printf ("2. n = p * q which is the modulus of both the keys\n");
+
 	n = p * q;
+	printf ("   n = %llu\n", n);
+
+	printf ("3. phi = (p - 1) * (q - 1)\n");
+
 	ull phi = (p - 1) * (q - 1);
+	printf ("   phi = %llu\n", phi);
 
 	// public key
+	printf ("4. Choose e such that e > 1 and co-prime to phi (GCD (e, phi) is 1). e is the public key.\n");
 	e = 1000;
 	while (1) {
 		if (gcd (e, phi) == 1) {
@@ -76,8 +84,10 @@ int gen_rsa_keys (ull p, ull q) {
 		}
 		e++;
 	}
-	printf ("public key e = %llu\n", e);
+	printf ("   Public key e = %llu\n", e);
+
 	// private key
+	printf ("5. Choose d such that d * e = 1 + k * phi, d is the private key\n");
 	ull k = 1;
 	while (1) {
 		k = k + phi;
@@ -86,8 +96,7 @@ int gen_rsa_keys (ull p, ull q) {
 			break;
 		}
 	}
-	printf ("private key d = %llu\n", d);
-
+	printf ("   Private key d = %llu\n", d);
 }
 // encrypt function
 ull enc (ull m) {
@@ -113,7 +122,6 @@ ull dec (ull c) {
 // run <random seed> <text to be encrypted>
 int main (int argc, char* argv[]) {
 	if (argc != 3) {
-
 		printf ("usage: run <random seed> <text to be encrypted>\n");
 		exit (1);
 	}
@@ -124,12 +132,15 @@ int main (int argc, char* argv[]) {
 	// set random seed
 	srand (randseed);
 
+	printf ("RSA Algorithm:\n");	
+	printf ("1. Choose two prime numbers p and q\n");
+
 	// pick p and q
 	ull p = rand_prime ();
 	ull q = rand_prime ();
-	
-	printf ("prime number p = %llu\n", p);
-	printf ("prime number q = %llu\n", q);
+
+	printf ("   Prime number p = %llu\n", p);
+	printf ("   Prime number q = %llu\n", q);
 
 	gen_rsa_keys (p, q);
 
@@ -137,19 +148,19 @@ int main (int argc, char* argv[]) {
 	int i = 0;
 
 	// encryption
-	printf ("Encryption:\n");
+	printf ("6. Encryption: cipher text is calculated using c = m ^ e mod n where m is the message\n");
 	for (i = 0; i < strlen(msg); i++) {
 		ull m = (ull) msg[i];
 		ull c = enc (m);
-		printf ("%c	=> %-16llu\n", msg[i], c);
+		printf ("   %16c => %-16llu\n", msg[i], c);
 		enc_msg[i] = c;
 	}
 	// decryption
-	printf ("Decryption:\n");
+	printf ("7. Decryption: to decrypt a message, c = m ^ d mod n where d is the private key\n");
 	for (i = 0; i < strlen(msg); i++) {
 		ull c = enc_msg[i];
 		char m = (char) dec(c);
-		printf ("%-16llu => %c\n", c, m); 
+		printf ("   %16llu => %-16c\n", c, m); 
 	}
 }
 

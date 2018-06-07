@@ -1,7 +1,8 @@
-TARGET = run
+TARGET = rsa
 LIBS = 
 CC = gcc
 CFLAGS = -g -Wall -I.
+STUDENT = student4
 
 .PHONY: clean all default
 
@@ -20,3 +21,8 @@ $(TARGET): $(OBJECTS)
 clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
+
+install:
+	sudo cp ./rsa /usr/lib/cgi-bin/$(STUDENT)/
+	sudo cp ./index.php /var/www/html/$(STUDENT)/
+	sudo cp ./*.jpg /var/www/html/$(STUDENT)/
