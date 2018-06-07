@@ -22,7 +22,7 @@ clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
 
-install:
-	sudo cp ./rsa /usr/lib/cgi-bin/$(STUDENT)/
+install: default
+	sudo cp ./$(TARGET) /usr/lib/cgi-bin/$(STUDENT)/
 	sudo cp ./index.php /var/www/html/$(STUDENT)/
 	sudo cp ./*.jpg /var/www/html/$(STUDENT)/
